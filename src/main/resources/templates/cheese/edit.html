@@ -2,11 +2,11 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
 <head th:replace="fragments :: head"></head>
 <body class="container">
-<h1 th:text="${title}">Default Title</h1>
+<h1 th:text="'Edit Cheese ' + ${cheese.name} + ' (id=' + ${cheese.id} + ')'">Default Title</h1>
 
 <nav th:replace="fragments :: navigation"></nav>
 
-<form method="post" style="max-width:600px;" th:object="${cheese}">
+<form method="post" style="max-width:600px;" th:object="${cheese}" action="/cheese/edit">
     <div class="form-group">
         <label th:for="name">Name</label>
         <input class="form-control" th:field="*{name}" />
@@ -19,24 +19,18 @@
     </div>
 
     <div class="form-group">
-<!--
-        <label th:for="type">Type</label>
-        <select th:field="*{type}">
-            <option th:each="cheeseType : ${cheeseTypes}"
-                    th:text="${cheeseType.name}"
-                    th:value="${cheeseType}"></option>
-        </select>
--->
         <label th:for="category">Category</label>
-        <select name="categoryId">
+        <select name="categoryId" >
             <option th:each="category : ${categories}"
                     th:text="${category.name}"
-                    th:value="${category.id}">
+                    th:value="${category.id}"
+                    th:selected="${category.id} == ${cheese.category.id} ? true : false">
             </option>
         </select>
     </div>
 
-    <input type="submit" value="Add Cheese" />
+    <input type="hidden" th:value="${cheese.id}" name="cheeseId" />
+    <input type="submit" value="Edit Cheese" />
 </form>
 
 </body>
